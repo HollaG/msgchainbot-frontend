@@ -4,12 +4,12 @@ env:
     CI: false
 on:
     push:
-        branches: [master]
+        branches: [main]
         paths-ignore:
             - "*.md"
 
     pull_request:
-        branches: [master]
+        branches: [main]
         paths-ignore:
             - "*.md"
 
@@ -21,7 +21,7 @@ jobs:
 
         steps:
             - name: Checkout 🛎️
-              uses: actions/checkout@master
+              uses: actions/checkout@main
               with:
                   persist-credentials: false
 
