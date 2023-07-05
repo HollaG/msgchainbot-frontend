@@ -12,52 +12,6 @@ export interface ITelegramContext {
 
 export const TelegramContext = createContext<ITelegramContext>({});
 
-function transformInitData(initData: string) {
-    return Object.fromEntries(new URLSearchParams(initData));
-}
-async function validate(data: any, botToken: string) {
-    const encoder = new TextEncoder();
-    const checkString = await Object.keys(data)
-        .filter((key) => key !== "hash")
-        .map((key) => `${key}=${data[key]}`)
-        .sort()
-        .join("\n");
-    const secretKey = await crypto.subtle.importKey(
-        "raw",
-        encoder.encode("WebAppData"),
-        { name: "HMAC", hash: "SHA-256" },
-        true,
-        ["sign"]
-    );
-    const secret = await crypto.subtle.sign(
-        "HMAC",
-        secretKey,
-        encoder.encode(botToken)
-    );
-    const signatureKey = await crypto.subtle.importKey(
-        "raw",
-        secret,
-        { name: "HMAC", hash: "SHA-256" },
-        true,
-        ["sign"]
-    );
-    const signature = await crypto.subtle.sign(
-        "HMAC",
-        signatureKey,
-        encoder.encode(checkString)
-    );
-    const hex = [...new Uint8Array(signature)]
-        .map((b) => b.toString(16).padStart(2, "0"))
-        .join("");
-    return data.hash === hex;
-}
-async function validateHash(initData: string): Promise<boolean> {
-    return await validate(
-        transformInitData(initData),
-        process.env.REACT_APP_BOT_TOKEN || ""
-    );
-}
-
 export const TelegramProvider = ({
     children,
 }: {
@@ -109,7 +63,7 @@ export const TelegramProvider = ({
 
     const app = (window as any).Telegram?.WebApp;
 
-    const [webApp, setWebApp] = useState<IWebApp | undefined>(app);
+    const [webApp] = useState<IWebApp | undefined>(app);
     // const [user, setUser] = useState<ITelegramUser | undefined>(undefined);
 
     if (app as IWebApp) {
@@ -144,7 +98,7 @@ export const TelegramProvider = ({
                       ? {
                             ...webApp.initDataUnsafe.user,
                             type: "telegram",
-                            id: webApp.initDataUnsafe.user.id.toString(),
+                            id: webApp.initDataUnsafe.user.id,
                         }
                       : undefined,
                   style: themeParams || undefined,

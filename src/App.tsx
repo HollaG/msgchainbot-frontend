@@ -26,7 +26,6 @@ function App() {
         return <>Missing start app param</>;
     }
 
-    const type = startParam.split("__-__")[0];
     const chainId = startParam.split("__-__")[1];
 
     console.log(chainId);
