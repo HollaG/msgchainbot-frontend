@@ -16,5 +16,4 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const fireDb = getFirestore(app);
 
-export const COLLECTION_NAME =
-    import.meta.env.VITE_COLLECTION_NAME || "requests";
+export const COLLECTION_NAME = import.meta.env.VITE_COLLECTION_NAME || "chains";
