@@ -28,13 +28,10 @@ function App() {
 
     const chainId = startParam.split("__-__")[1];
 
-    console.log(chainId);
-    console.log(COLLECTION_NAME);
     // console.log({ type, val });
 
-    console.log({ chain });
-
-    const { user } = useTelegram();
+    const { user, style } = useTelegram();
+    console.log({ style });
     const [message, setMessage] = useState("");
     const [isMessageTouched, setIsMessageTouched] = useState(false);
     const [savingInSeconds, setSavingInSeconds] = useState(0);
@@ -117,7 +114,7 @@ function App() {
                     setSavingInSeconds(0);
                 })
                 .catch(console.log);
-        }, 2000);
+        }, 1500);
 
         return () => clearTimeout(timeout);
     }, [message]);
@@ -126,13 +123,15 @@ function App() {
         return <div className="container mx-auto mt-3 px-3"> Loading... </div>;
 
     return (
-        <div className="container mx-auto mt-3 px-3">
+        <div className={`container mx-auto mt-3 px-3 ${style?.color_scheme}`}>
             <div className="stack">
                 <div className="mb-4">
-                    <div className="text-2xl font-bold ">{chain.title}</div>
+                    <div className="text-2xl font-bold dark:text-white ">
+                        {chain.title}
+                    </div>
                     <div className="text-sm font-light">
                         <a
-                            className="text-blue-700 hover:underline"
+                            className="text-blue-700 dark:text-blue-300 hover:underline"
                             href={`https://t.me/${chain.by.username}`}
                         >
                             by {chain.by.first_name}
@@ -145,24 +144,29 @@ function App() {
                         <div className="mb-4">
                             <label
                                 htmlFor="message"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400"
+                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200"
                             >
                                 Your message
                             </label>
                             <textarea
                                 id="message"
                                 rows={4}
-                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 dark:bg-gray-800  rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 placeholder="Write anything here!"
                                 value={message}
                                 onChange={onMessageChange}
+                                style={{
+                                    backgroundColor: style?.secondary_bg_color,
+                                    borderColor: style?.button_color,
+                                }}
                             ></textarea>
-                            <p className="text-sm font-light ml-1">
+
+                            <p className="text-sm font-light ml-1 dark:text-gray-400 text-gray-800">
                                 Your message will be saved when you stop typing.
                             </p>
                             {
                                 <p
-                                    className={`text-sm font-light ml-1 ${
+                                    className={`text-sm font-light ml-1 dark:text-gray-400 text-gray-800 ${
                                         dataIsSaved ? "invisible" : "visible"
                                     }`}
                                 >
@@ -171,14 +175,14 @@ function App() {
                             }
                         </div>
                         <div
-                            className="mb-4 w-full bg-gray-600"
+                            className="mb-4 w-full bg-gray-600 dark:bg-gray-400"
                             style={{ height: "1px" }}
                         >
                             {" "}
                         </div>
                     </>
                 ) : (
-                    <div className="mb-4">
+                    <div className="mb-4 dark:text-white">
                         {" "}
                         Chain has ended! You can no longer reply.{" "}
                     </div>
@@ -189,7 +193,7 @@ function App() {
                         return (
                             <div key={i} className="mb-2">
                                 <div className="flex">
-                                    <div className="font-bold">
+                                    <div className="font-bold dark:text-white">
                                         {" "}
                                         {reply.first_name}
                                     </div>
@@ -198,13 +202,13 @@ function App() {
                                             href={`https://t.me/${reply.username}`}
                                             target="_blank"
                                             rel="noreferrer noopener"
-                                            className="text-blue-700 hover:underline"
+                                            className="text-blue-700 hover:underline dark:text-blue-300"
                                         >
                                             @{reply.username}{" "}
                                         </a>
                                     </div>
                                 </div>
-                                <div className="whitespace-break-spaces">
+                                <div className="whitespace-break-spaces dark:text-white">
                                     {reply.text}
                                 </div>
                             </div>

@@ -40,8 +40,10 @@ export const TelegramProvider = ({
 
         if (isDarkMode) {
             // TODO
+            newStyle.color_scheme = "dark";
         } else {
             // TODO
+            newStyle.color_scheme = "light";
         }
 
         setThemeParams({ ...newStyle });

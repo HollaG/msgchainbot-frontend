@@ -17,6 +17,7 @@ export interface ThemeParams {
     hint_color: string;
     bg_color: string;
     text_color: string;
+    color_scheme: string;
 }
 export interface IWebApp {
     initData: string;
