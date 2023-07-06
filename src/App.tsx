@@ -211,7 +211,7 @@ function App() {
                                         </a>
                                     </div>
                                 </div>
-                                <div className="whitespace-break-spaces dark:text-white">
+                                <div className="whitespace-break-spaces dark:text-white break-words">
                                     {reply.text}
                                 </div>
                             </div>
