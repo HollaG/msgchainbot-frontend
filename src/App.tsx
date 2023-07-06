@@ -51,6 +51,9 @@ function App() {
      * @param e The change event
      */
     const onMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        if (e.target.value.trim().length > 1024) {
+            return;
+        }
         setMessage(e.target.value);
         setDataIsSaved(false);
         setIsMessageTouched(true);
